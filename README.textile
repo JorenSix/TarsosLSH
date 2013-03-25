@@ -6,7 +6,6 @@ h2. Using the Library
 
 Use the program as follows:
 
-<code>
 <pre>
 <b>Name</b>
 	TarsosLSH: finds the nearest neighbours in a data set quickly, using LSH.
@@ -56,7 +55,7 @@ Use the program as follows:
 	and utilizing 5 hash tables, each with 3 hashes.
 	
 	java - jar TarsosLSH.jar -f l2 -r 500 -h 3 -t 5 dataset.txt queries.txt
-</code>
+
 </pre>
 
 Giving the program no arguments: @java - jar TarsosLSH.jar@ executes LSH on a random data set.
