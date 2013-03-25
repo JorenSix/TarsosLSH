@@ -13,9 +13,9 @@ Synopsis
 	java - jar TarsosLSH.jar [options] dataset.txt queries.txt 
 Description
 	Tries to find nearest neighbours for each vector in the 
-	query file, using Euclidean (L<sub>2</sub>) distance by default.
+	query file, using Euclidean (L2) distance by default.
 	
-	Both dataset.txt and @queries.txt@ have a similar format: 
+	Both dataset.txt and queries.txt have a similar format: 
 	an optional identifier for the vector and a list of N 
 	coordinates (which should be doubles).
 
@@ -67,6 +67,6 @@ This section includes a links to resources used to implement this library.
 * The "LSH-page":http://www.mit.edu/~andoni/LSH/ maintained by Alexandr Andoni contains pointers to good resources:
 ** "Locality-Sensitive Hashing Scheme Based on p-Stable Distributions":http://theory.lcs.mit.edu/~indyk/nips-nn.ps a chapter by Alexandr Andoni, Mayur Datar, Nicole Immorlica, Piotr Indyk, and Vahab Mirrokni which appeared in the book Nearest Neighbor Methods in Learning and Vision: Theory and Practice, by T. Darrell and P. Indyk and G. Shakhnarovich (eds.), MIT Press, 2006. 
 ** "Similarity Search in High Dimensions via Hashing":http://theory.csail.mit.edu/~indyk/vldb99.ps The original LSH Paper for hamming distance by Gionis, Aristides and Indyk, Piotr and Motwani, Rajeev.
-* "Locality-Sensitive Hashing for Finding Nearest Neighbors" a good introduction of <abbr title="Locality Sensitive Hashing">LSH</abbr>by Malcom Slaney & Michael Casey
+* "Locality-Sensitive Hashing for Finding Nearest Neighbors":http://www.slaney.org/malcolm/yahoo/Slaney2008-LSHTutorial.pdf a good introduction of <abbr title="Locality Sensitive Hashing">LSH</abbr> by Malcom Slaney & Michael Casey
 * "Finding Similar Items":http://i.stanford.edu/~ullman/mmds/ch3.pdf, Chapter Three of "Mining of Massive Datasets" by Anand Rajaraman and Jeff Ullman is a textbook introducing the LSH concept.
 * "Szudzik pairing functions":http://szudzik.com/ElegantPairing.pdf by Matthew Szudzik. Explains how integer hashes can be combined deterministically to form a reversible, unique new hash.
