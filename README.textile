@@ -7,11 +7,11 @@ h2. Using the Library
 Use the program as follows:
 
 <pre>
-<b>Name</b>
+Name
 	TarsosLSH: finds the nearest neighbours in a data set quickly, using LSH.
-<b>Synopsis</b>     
+Synopsis    
 	java - jar TarsosLSH.jar [options] dataset.txt queries.txt 
-<b>Description</b>
+Description
 	Tries to find nearest neighbours for each vector in the 
 	query file, using Euclidean (L<sub>2</sub>) distance by default.
 	
@@ -31,8 +31,8 @@ Use the program as follows:
 	
 	-f cos|l1|l2 
 		Defines the hash family to use:
-			l1	City block hash family (L<sub>1</sub>)
-			l2	Euclidean hash family(L<sub>2</sub>)
+			l1	City block hash family (L1)
+			l2	Euclidean hash family(L2)
 			cos	Cosine distance hash family
 	-r radius 
 		Defines the radius in which near neighbours should
@@ -50,7 +50,7 @@ Use the program as follows:
 		Benchmark the settings. 
 	--help 
 		Prints this helpful message.
-<b>Examples</b>
+Examples
 	Search for nearest neighbours using the l2 hash family with a radius of 500
 	and utilizing 5 hash tables, each with 3 hashes.
 	
