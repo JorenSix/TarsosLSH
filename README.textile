@@ -1,6 +1,6 @@
-h1. Locality Sensitive Hashing (LSH) in Java
+h1. TarsosLSH - Locality Sensitive Hashing (LSH) in Java
 
-TarsosLSH is a Java library implementing Locality-sensitive Hashing (LSH), a practical nearest neighbour search algorithm for multidimensional vectors that operates in sublinear time. It supports several Locality Sensitive Hashing (LSH) families: the Euclidean hash family (L<sub>2</sub>), city block hash family (L<sub>1</sub>) and cosine hash family. The library tries to hit the sweet spot between being capable enough to get real tasks done, and compact enough to serve as a demonstration on how <abbr title="Locality-sensitive Hashing">LSH</abbr> works. 
+TarsosLSH is a Java library implementing Locality-sensitive Hashing (LSH), a practical nearest neighbour search algorithm for multidimensional vectors that operates in sublinear time. It supports several Locality Sensitive Hashing (LSH) families: the Euclidean hash family (L<sub>2</sub>), city block hash family (L<sub>1</sub>) and cosine hash family. The library tries to hit the sweet spot between being capable enough to get real tasks done, and compact enough to serve as a demonstration on how <abbr title="Locality-sensitive Hashing">LSH</abbr> works.
 
 h2. Quickly Getting Started with TarsosLSH
 
@@ -10,9 +10,9 @@ cd TarsosLSH/build
 ant  #Builds the core TarsosLSH library
 ant javadoc #build the API documentation
 </code></pre>
-When everything runs correctly you should be able to run comamnd line applications and have the latest version of the TarsosLSH library for inclusion in your projects. Also the Javadoc documentation for the API should be available in TarsosLSH/doc. Drop me a line if you use TarsosLSH in your project. Always nice to hear how this software is used.
+When everything runs correctly you should be able to run the command line application, and have the latest version of the TarsosLSH library for inclusion in your projects. Also, the Javadoc documentation for the API should be available in TarsosLSH/doc. Drop me a line if you use TarsosLSH in your project. Always nice to hear how this software is used.
 
-The fastest way to get something on your screen is executing this on your command line: @java - jar TarsosLSH.jar@ this lets LSH run on a random data set. The full reference of the command line example is included below:
+The fastest way to get something on your screen is executing this on your command line: @java - jar TarsosLSH.jar@ this lets LSH run on a random data set. The full reference of the command line application is included below:
 
 <pre>
 Name
