@@ -19,7 +19,6 @@
 	<target name="compile">
 		<mkdir dir="../bin" />
 		<javac srcdir="../src" destdir="../bin" />
-		<javac srcdir="../test" destdir="../bin" />
 
 		<!-- copy all needed resources to bin dir
 		<copy todir="../bin/be/hogent/tarsos/lsh/resources">
@@ -27,7 +26,6 @@
 		</copy>
 		 -->
 	</target>
-
 
 
 	<!-- Creates javadoc in doc directory -->
@@ -90,7 +88,7 @@
 	<target name="compile_with_tests" depends="compile">
 		<javac srcdir="../tests" destdir="../bin" classpath="${junit_jar}" debug="true" />
 		<copy todir="../bin/be/hogent/tarsos/lsh/test/resources">
-			<fileset dir="../tests/be/hogent/tarsos/lsh/test/resources" />
+			<fileset dir="../test/be/hogent/tarsos/lsh/test/resources" />
 		</copy>
 	</target>
 
