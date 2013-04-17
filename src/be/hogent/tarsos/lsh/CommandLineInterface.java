@@ -73,7 +73,7 @@ public class CommandLineInterface {
 		numberOfNeighbours = getIntegerValue("-n",4);
 		String hashFamilyType = getValue("-f", "l2");
 		radius = getDoubleValue("-r",0.0);
-		printHelp = hasOption("--help");
+		printHelp = hasOption("--help") || arguments.length == 0;
 		benchmark = hasOption("-b");
 		String datasetFile = datafileFile(true);
 		String queryFile = datafileFile(false);
