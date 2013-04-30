@@ -23,12 +23,26 @@
 
 package be.hogent.tarsos.lsh;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Logger;
 
 import be.hogent.tarsos.lsh.families.HashFamily;
 import be.hogent.tarsos.lsh.families.HashFunction;
+import be.hogent.tarsos.lsh.util.FileUtils;
 
 /**
  * An index contains one or more locality sensitive hash tables. These hash
@@ -37,7 +51,11 @@ import be.hogent.tarsos.lsh.families.HashFunction;
  * 
  * @author Joren Six
  */
-class MemoryHashTable implements HashTable{
+class MemoryHashTable implements HashTable, Serializable {
+	
+	
+	private static final long serialVersionUID = -5410017645908038641L;
+	private final static Logger LOG = Logger.getLogger(MemoryHashTable.class.getName()); 
 	
 	/**
 	 * Contains the mapping between a combination of a number of hashes (encoded
@@ -117,5 +135,70 @@ class MemoryHashTable implements HashTable{
 	 */
 	public int getNumberOfHashes() {
 		return hashFunctions.length;
+	}
+	
+	
+	/**
+	 * Serializes the memory to disk.
+	 * @param hashTable the storage object.
+	 */
+	public static void serialize(MemoryHashTable hashTable){
+		try {
+			
+			String serializationFile = serializationName(hashTable);;
+			OutputStream file = new FileOutputStream(serializationFile);
+			OutputStream buffer = new BufferedOutputStream(file);
+			ObjectOutput output = new ObjectOutputStream(buffer);
+			try {
+				output.writeObject(hashTable);
+			} finally {
+				output.close();
+			}
+		} catch (IOException ex) {
+
+		}
+	}
+	
+	/**
+	 * Return a unique name for a hash table wit a family and number of hashes. 
+	 * @param hashtable the hash table.
+	 * @return e.g. "be.hogent.tarsos.lsh.CosineHashfamily_16.bin"
+	 */
+	private static String serializationName(MemoryHashTable hashtable){
+		String name = hashtable.family.getClass().getName();
+		int numberOfHashes = hashtable.getNumberOfHashes();
+		return name + "_" + numberOfHashes + ".bin";
+	}
+	
+
+	/**
+	 * Deserializes the hash table from disk. If deserialization fails, 
+	 * a new hash table object is created.
+	 * @param numberOfHashes the number of hashes.
+	 * @param family The family.
+	 * @return a new, or deserialized object.
+	 */
+	public static MemoryHashTable deserialize(int numberOfHashes,HashFamily family){
+		MemoryHashTable hashTable = new MemoryHashTable(numberOfHashes,family);
+		String serializationFile = serializationName(hashTable);
+		if(FileUtils.exists(serializationFile)){
+			try {
+				
+				InputStream file = new FileInputStream(serializationFile);
+				InputStream buffer = new BufferedInputStream(file);
+				ObjectInput input = new ObjectInputStream(buffer);
+				try {
+					hashTable = (MemoryHashTable) input.readObject();
+				} finally {
+					input.close();
+				}
+			} catch (ClassNotFoundException ex) {
+				LOG.severe("Could not find class during deserialization: " + ex.getMessage());
+			} catch (IOException ex) {
+				LOG.severe("IO exeption during during deserialization: " + ex.getMessage());
+				ex.printStackTrace();
+			}
+		}
+		return hashTable;
 	}
 }
