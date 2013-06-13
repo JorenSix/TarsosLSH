@@ -10,59 +10,65 @@ cd TarsosLSH/build
 ant  #Builds the core TarsosLSH library
 ant javadoc #build the API documentation
 </code></pre>
-When everything runs correctly you should be able to run the command line application, and have the latest version of the TarsosLSH library for inclusion in your projects. Also, the Javadoc documentation for the API should be available in TarsosLSH/doc. Drop me a line if you use TarsosLSH in your project. Always nice to hear how this software is used.
+When everything runs correctly you should be able to run the command line application, and have the latest version of the TarsosLSH library for inclusion in your projects. Also, the Javadoc documentation for the API should be available in TarsosLSH/doc. Drop me a line (<a href='ma&#105;&#108;to&#58;j&#111;re&#110;&#64;01%310&#46;&#98;&#101;'>joren _ at _ 0110 _ dot _ be</a>) if you use TarsosLSH in your project. Always nice to hear how this software is used.
 
 The fastest way to get something on your screen is executing this on your command line: @java - jar TarsosLSH.jar@ this lets LSH run on a random data set. The full reference of the command line application is included below:
 
 <pre>
 Name
 	TarsosLSH: finds the nearest neighbours in a data set quickly, using LSH.
-Synopsis    
-	java - jar TarsosLSH.jar [options] dataset.txt queries.txt 
+Synopsis     
+	java - jar TarsosLSH.jar [options]
 Description
-	Tries to find nearest neighbours for each vector in the 
-	query file, using Euclidean (L2) distance by default.
+	Tries to find nearest neighbours for each vector in the
+	query file, using Euclidean (L<sub>2</sub>) distance by default.
 	
-	Both dataset.txt and queries.txt have a similar format: 
-	an optional identifier for the vector and a list of N 
+	Both dataset.txt and queries.txt have a similar format:
+	an optional identifier for the vector and a list of N
 	coordinates (which should be doubles).
-
+	
 	[Identifier] coord1 coord2 ... coordN
 	[Identifier] coord1 coord2 ... coordN
 	
 	For an example data set with two elements and 4 dimensions:
-	
+		
 	Hans 12 24 18.5 -45.6
 	Jane 13 19 -12.0 49.8
 	
 	Options are:
-	
-	-f cos|l1|l2 
+		
+	-d dataset.txt	
+		The dataset with vectors to store in the hash table
+	-q queries.txt	
+		A list of vectors to query against the stored dataset
+	-f cos|l1|l2
 		Defines the hash family to use:
-			l1	City block hash family (L1)
-			l2	Euclidean hash family(L2)
+			l1	City block hash family (L<sub>1</sub>)
+			l2	Euclidean hash family(L<sub>2</sub>)
 			cos	Cosine distance hash family
-	-r radius 
+	-r radius
 		Defines the radius in which near neighbours should
 		be found. Should be a double. By default a reasonable
 		radius is determined automatically.
 	-h n_hashes
-		An integer that determines the number of hashes to 
+		An integer that determines the number of hashes to
 		use. By default 4, 32 for the cosine hash family.
 	-t n_tables
 		An integer that determines the number of hash tables,
 		each with n_hashes, to use. By default 4.
 	-n n_neighbours
 		Number of neighbours in the neighbourhood, defaults to 3.
-	-b 
-		Benchmark the settings. 
-	--help 
+	-b
+		Benchmark the settings.
+	--help
 		Prints this helpful message.
+	
 Examples
 	Search for nearest neighbours using the l2 hash family with a radius of 500
 	and utilizing 5 hash tables, each with 3 hashes.
 	
-	java - jar TarsosLSH.jar -f l2 -r 500 -h 3 -t 5 dataset.txt queries.txt
+	java -jar TarsosLSH.jar -f l2 -r 500 -h 3 -t 5 -d dataset.txt -q queries.txt
+
 
 </pre>
  

@@ -321,7 +321,7 @@ public class CommandLineInterface {
 		System.out.println("	Search for nearest neighbours using the l2 hash family with a radius of 500");
 		System.out.println("	and utilizing 5 hash tables, each with 3 hashes.");
 		System.out.println("	");		
-		System.out.println("	java -jar TarsosLSH.jar -f l2 -r 500 -h 3 -t 5 dataset.txt queries.txt");
+		System.out.println("	java -jar TarsosLSH.jar -f l2 -r 500 -h 3 -t 5 -d dataset.txt -q queries.txt");
 	}
 	
 	private void printError(String message){
