@@ -29,6 +29,10 @@ import java.util.Random;
 import be.hogent.tarsos.lsh.Vector;
 
 public class CityBlockHash implements HashFunction {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -635398900309516287L;
 	private int w;
 	private Vector randomPartition;
 	

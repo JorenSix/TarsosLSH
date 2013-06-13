@@ -37,14 +37,10 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import be.hogent.tarsos.lsh.families.CityBlockHashFamily;
-import be.hogent.tarsos.lsh.families.CosineHashFamily;
 import be.hogent.tarsos.lsh.families.DistanceComparator;
 import be.hogent.tarsos.lsh.families.DistanceMeasure;
-import be.hogent.tarsos.lsh.families.EuclidianHashFamily;
 import be.hogent.tarsos.lsh.families.HashFamily;
 import be.hogent.tarsos.lsh.util.FileUtils;
-import be.hogent.tarsos.lsh.util.TestUtils;
 
 /**
  * Implements a Locality Sensitive Hash scheme.
@@ -69,9 +65,12 @@ public class LSH {
 	 *            The number of hash tables to use.
 	 */
 	public void buildIndex(int numberOfHashes, int numberOfHashTables){
-		index = new Index(hashFamily,numberOfHashes,numberOfHashTables);
-		for(Vector vector : dataset){
-			index.index(vector);
+		index = Index.deserialize(hashFamily, numberOfHashes, numberOfHashTables);
+		if(dataset != null){
+			for(Vector vector : dataset){
+				index.index(vector);
+			}
+			Index.serialize(index);
 		}
 	}
 	
@@ -294,41 +293,5 @@ public class LSH {
 		CommandLineInterface cli = new CommandLineInterface(args);
 		cli.parseArguments();
 		cli.startApplication();
-	}
-	
-
-	
-	public static void benchmarkFamilies(){
-		int dimensions = 5;
-		int datasetSize = 1000;
-		int maxValue = 20;
-		
-		int numberOfNeighboursToAdd = 2;
-		double radius = 0.1;
-		
-		List<Vector> dataset = TestUtils.generate(dimensions, datasetSize,maxValue);
-		TestUtils.addNeighbours(dataset, numberOfNeighboursToAdd, radius);
-		int w = (int) (10 * radius);
-		HashFamily[] families = {new EuclidianHashFamily(w,dimensions),new CityBlockHashFamily(w,dimensions), new CosineHashFamily(dimensions)};
-		for(HashFamily family:families){
-			
-			int[] numberOfHashes = {1,2,4,6,8};
-			if(family instanceof CosineHashFamily){
-				for(int i = 0 ; i <numberOfHashes.length;i++){
-					numberOfHashes[i] *= 8;
-				}
-			}
-			int[] numberOfHashTables = {1,2,4,8,16};
-			
-			LSH lsh = new LSH(dataset,family);
-			System.out.println("\n--" + family.getClass().getName());
-			System.out.printf("%10s%15s%10s%10s%10s%10s%10s%10s\n","#hashes","#hashTables","Correct","Touched","linear","lsh","Precision","Recall");
-			for(int i = 0; i < numberOfHashes.length ; i++){
-				for(int j = 0 ; j < numberOfHashTables.length ; j++){	
-					lsh.buildIndex( numberOfHashes[i], numberOfHashTables[j]);
-					lsh.benchmark(numberOfNeighboursToAdd+1,family.createDistanceMeasure());	
-				}
-			}
-		}
 	}
 }

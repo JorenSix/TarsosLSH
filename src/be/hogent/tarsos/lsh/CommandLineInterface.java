@@ -31,7 +31,6 @@ import be.hogent.tarsos.lsh.families.DistanceMeasure;
 import be.hogent.tarsos.lsh.families.EuclideanDistance;
 import be.hogent.tarsos.lsh.families.EuclidianHashFamily;
 import be.hogent.tarsos.lsh.families.HashFamily;
-import be.hogent.tarsos.lsh.util.FileUtils;
 import be.hogent.tarsos.lsh.util.TestUtils;
 
 
@@ -75,19 +74,23 @@ public class CommandLineInterface {
 		radius = getDoubleValue("-r",0.0);
 		printHelp = hasOption("--help") || arguments.length == 0;
 		benchmark = hasOption("-b");
-		String datasetFile = datafileFile(true);
-		String queryFile = datafileFile(false);
-		if(datasetFile == null){
+		String datasetFile = getValue("-d", null);
+		String queryFile = getValue("-q", null);
+		if(benchmark){
 			dimensions = 256;
 			if(radius==0){
 				radius = 10;
 			}
 			dataset = TestUtils.generate(dimensions, 100,512);
 			TestUtils.addNeighbours(dataset, numberOfNeighbours, radius);
-		}else{
+		}
+		if(datasetFile !=null){
 			dataset = LSH.readDataset(datasetFile,Integer.MAX_VALUE);
-			queries = LSH.readDataset(queryFile,Integer.MAX_VALUE);
 			dimensions = dataset.get(0).getDimensions();
+		}
+		if(queryFile != null){
+			queries = LSH.readDataset(queryFile,Integer.MAX_VALUE);
+			dimensions = queries.get(0).getDimensions();
 		}
 		if(radius == 0 && hashFamilyType.equalsIgnoreCase("l1")){
 			measure = new CityBlockDistance();
@@ -98,6 +101,7 @@ public class CommandLineInterface {
 		}
 		family = getHashFamily(radius,hashFamilyType,dimensions);
 	}
+	
 	public void startApplication(){
 		if(printHelp){
 			printHelp();
@@ -114,8 +118,16 @@ public class CommandLineInterface {
 	
 	
 	public void startBenchmark(){
+		System.out.println("Starting TarsosLSH benchmark with " + dataset.size() + " random vectors");
+		System.out.println("   Four close neighbours have been added to 100 vectors (100+4x100=500).");
+		System.out.println("   The results of LSH are compared with a linear search.");
+		System.out.println("   The first four results of LSH and linear are compared.");
+		
+		
 		//determine the radius for hash bins automatically
+		System.out.println("Radius for Euclidean distance.");
 		int radiusEuclidean = (int) LSH.determineRadius(dataset, new EuclideanDistance(), 20);
+		System.out.println("\nRadius for City block distance.");
 		int radiusCityBlock = (int) LSH.determineRadius(dataset, new CityBlockDistance(), 20);
 
 		HashFamily[] families = {
@@ -135,7 +147,7 @@ public class CommandLineInterface {
 			
 			LSH lsh = new LSH(dataset,family);
 			System.out.println("\n--" + family.getClass().getName());
-			System.out.printf("%10s%15s%10s%10s%10s%10s%10s%10s\n","#hashes","#hashTables","Correct","Touched","linear","lsh","Precision","Recall");
+			System.out.printf("%10s%15s%10s%10s%10s%10s%10s%10s\n","#hashes","#hashTables","Correct","Touched","linear","LSH","Precision","Recall");
 			for(int i = 0; i < numberOfHashes.length ; i++){
 				for(int j = 0 ; j < numberOfHashTables.length ; j++){	
 					lsh.buildIndex( numberOfHashes[i], numberOfHashTables[j]);
@@ -149,12 +161,15 @@ public class CommandLineInterface {
 	
 	private void startLSH(){
 		LSH lsh = new LSH(dataset, family);
-		lsh.buildIndex(numberOfHashes,numberOfHashTables);
-		for(Vector query:queries){
-			List<Vector> neighbours = lsh.query(query, numberOfNeighbours);
-			System.out.print(query.getKey()+";");
-			for(Vector neighbour:neighbours){
-				System.out.print(neighbour.getKey() + ";");
+		lsh.buildIndex(numberOfHashes,numberOfHashTables);		
+		if(queries != null){
+			for(Vector query:queries){
+				List<Vector> neighbours = lsh.query(query, numberOfNeighbours);
+				System.out.print(query.getKey()+";");
+				for(Vector neighbour:neighbours){
+					System.out.print(neighbour.getKey() + ";");
+				}
+				System.out.print("\n");
 			}
 		}
 	}
@@ -165,9 +180,11 @@ public class CommandLineInterface {
 			family = new CosineHashFamily(dimensions);
 		}else if(hashFamilyType.equalsIgnoreCase("l1")){
 			int w = (int) (10 * radius);
+			w = w == 0 ? 1 : w;
 			family = new CityBlockHashFamily(w,dimensions);
 		}else if(hashFamilyType.equalsIgnoreCase("l2")){
 			int w = (int) (10 * radius);
+			w = w == 0 ? 1 : w;
 			family = new EuclidianHashFamily(w,dimensions);
 		}else{
 			new IllegalArgumentException(hashFamilyType + " is unknown, should be one of cos|l1|l2" );
@@ -175,34 +192,6 @@ public class CommandLineInterface {
 		return family;
 	}
 	
-	/**
-	 * Return either the first or last file in the arguments.
-	 * e.g.<code>program argument file1 -option value file2 -other-option file3</code>
-	 * Returns file1 if called with first = true, file3 otherwise.
-	 *  
-	 * @param first Return the last or first file?
-	 * @return Return the last or first file.
-	 */
-	private String datafileFile(boolean first){
-		int index = -1;
-		for(int i = 0 ; i < arguments.length ; i++){
-			if(FileUtils.exists(arguments[i])){
-				//overwrite index if we are not looking
-				//for the first file
-				if(index == -1){
-					index = i;
-				}
-				if(!first && i >=0){
-					index = i;
-				}
-			}
-		}
-		if(index>=0){
-			return arguments[index];
-		}else{
-			return null;
-		}
-	}
 	
 	private boolean hasOption(String option){
 		int index = -1;
@@ -283,7 +272,7 @@ public class CommandLineInterface {
 		System.out.println("Name");
 		System.out.println("	TarsosLSH: finds the nearest neighbours in a data set quickly, using LSH.");
 		System.out.println("Synopsis     ");
-		System.out.println("	java - jar TarsosLSH.jar [options] dataset.txt queries.txt"); 
+		System.out.println("	java - jar TarsosLSH.jar [options]"); 
 		System.out.println("Description");
 		System.out.println("	Tries to find nearest neighbours for each vector in the"); 
 		System.out.println("	query file, using Euclidean (L<sub>2</sub>) distance by default.");
@@ -302,6 +291,10 @@ public class CommandLineInterface {
 		System.out.println("	");
 		System.out.println("	Options are:");
 		System.out.println("		");
+		System.out.println("	-d dataset.txt	");
+		System.out.println("		The dataset with vectors to store in the hash table");
+		System.out.println("	-q queries.txt	");
+		System.out.println("		A list of vectors to query against the stored dataset");
 		System.out.println("	-f cos|l1|l2"); 
 		System.out.println("		Defines the hash family to use:");
 		System.out.println("			l1	City block hash family (L<sub>1</sub>)");
@@ -328,7 +321,7 @@ public class CommandLineInterface {
 		System.out.println("	Search for nearest neighbours using the l2 hash family with a radius of 500");
 		System.out.println("	and utilizing 5 hash tables, each with 3 hashes.");
 		System.out.println("	");		
-		System.out.println("	java - jar TarsosLSH.jar -f l2 -r 500 -h 3 -t 5 dataset.txt queries.txt");
+		System.out.println("	java -jar TarsosLSH.jar -f l2 -r 500 -h 3 -t 5 dataset.txt queries.txt");
 	}
 	
 	private void printError(String message){

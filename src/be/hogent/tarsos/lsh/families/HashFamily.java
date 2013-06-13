@@ -23,6 +23,8 @@
 
 package be.hogent.tarsos.lsh.families;
 
+import java.io.Serializable;
+
 /**
  * An interface representing a family of hash functions. A hash family has the
  * ability to generate a new member of the family, and can combine hashes
@@ -31,7 +33,7 @@ package be.hogent.tarsos.lsh.families;
  * @author Joren Six
  * 
  */
-public interface HashFamily {
+public interface HashFamily extends Serializable {
 
 	/**
 	 * Create a new hash function of this family.

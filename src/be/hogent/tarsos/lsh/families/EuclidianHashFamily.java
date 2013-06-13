@@ -26,6 +26,10 @@ package be.hogent.tarsos.lsh.families;
 import java.util.Arrays;
 
 public class EuclidianHashFamily implements HashFamily {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3406464542795652263L;
 	private final int dimensions;
 	private int w;
 		

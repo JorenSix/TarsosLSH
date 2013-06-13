@@ -28,6 +28,10 @@ import java.util.Random;
 import be.hogent.tarsos.lsh.Vector;
 
 public class CosineHash implements HashFunction{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 778951747630668248L;
 	final Vector randomProjection;
 	
 	public CosineHash(int dimensions){

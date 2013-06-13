@@ -21,11 +21,15 @@
 * 
 */
 
-package be.hogent.tarsos.lsh.util;
+package be.hogent.tarsos.lsh.experimental;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+/**
+ * Experimental reversable pairing functions, which could be usefull for hashing. 
+ * @author Joren Six
+ */
 public class HashUtils {
 	
 	private HashUtils(){}

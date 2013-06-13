@@ -23,15 +23,29 @@
 
 package be.hogent.tarsos.lsh;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import be.hogent.tarsos.lsh.families.DistanceComparator;
 import be.hogent.tarsos.lsh.families.DistanceMeasure;
 import be.hogent.tarsos.lsh.families.HashFamily;
+import be.hogent.tarsos.lsh.util.FileUtils;
 
 /**
  * The index makes it easy to store vectors and lookup queries efficiently. For
@@ -41,10 +55,14 @@ import be.hogent.tarsos.lsh.families.HashFamily;
  * 
  * @author Joren Six
  */
-public class Index {
+public class Index implements Serializable{
+	
+	private static final long serialVersionUID = 3757702142917691272L;
+
+	private final static Logger LOG = Logger.getLogger(Index.class.getName()); 
 
 	private HashFamily family;
-	private List<MemoryHashTable> memoryHashTable; 
+	private List<HashTable> hashTable; 
 	private int evaluated;
 	
 	/**
@@ -63,9 +81,9 @@ public class Index {
 	 */
 	public Index(HashFamily family,int numberOfHashes, int numberOfHashTables){
 		this.family = family;
-		memoryHashTable = new ArrayList<MemoryHashTable>();
+		hashTable = new ArrayList<HashTable>();
 		for(int i = 0 ; i < numberOfHashTables ; i++ ){
-			memoryHashTable.add(new MemoryHashTable(numberOfHashes, family));
+			hashTable.add(new HashTable(numberOfHashes, family));
 		}
 		evaluated = 0;
 	}
@@ -78,7 +96,7 @@ public class Index {
 	 *            The vector to add.
 	 */
 	public void index(Vector vector) {
-		for (MemoryHashTable table : memoryHashTable) {
+		for (HashTable table : hashTable) {
 			table.add(vector);
 		}
 	}
@@ -88,7 +106,7 @@ public class Index {
 	 * @return The number of hash tables used in the current index.
 	 */
 	public int getNumberOfHashTables(){
-		return memoryHashTable.size();
+		return hashTable.size();
 	}
 	
 	/**
@@ -96,7 +114,7 @@ public class Index {
 	 * @return The number of hashes used in each hash table in the current index.
 	 */
 	public int getNumberOfHashes(){
-		return memoryHashTable.get(0).getNumberOfHashes();
+		return hashTable.get(0).getNumberOfHashes();
 	}
 
 	/**
@@ -115,7 +133,7 @@ public class Index {
 	 */
 	public List<Vector> query(final Vector query,int maxSize){
 		Set<Vector> candidateSet = new HashSet<Vector>();
-		for(MemoryHashTable table : memoryHashTable){
+		for(HashTable table : hashTable){
 			List<Vector> v = table.query(query);
 			candidateSet.addAll(v);
 		}
@@ -137,6 +155,73 @@ public class Index {
 	 */
 	public int getTouched(){
 		return evaluated;
+	}
+	
+	
+	/**
+	 * Serializes the index to disk.
+	 * @param index the storage object.
+	 */
+	public static void serialize(Index index){
+		try {
+			String serializationFile = serializationName(index);;
+			OutputStream file = new FileOutputStream(serializationFile);
+			OutputStream buffer = new BufferedOutputStream(file);
+			ObjectOutput output = new ObjectOutputStream(buffer);
+			try {
+				output.writeObject(index);
+			} finally {
+				output.close();
+			}
+		} catch (IOException ex) {
+
+		}
+	}
+	
+	/**
+	 * Return a unique name for a hash table wit a family and number of hashes. 
+	 * @param hashtable the hash table.
+	 * @return e.g. "be.hogent.tarsos.lsh.CosineHashfamily_16.bin"
+	 */
+	private static String serializationName(Index index){
+		String name = index.family.getClass().getName();
+		int numberOfHashes = index.getNumberOfHashes();
+		int numberOfHashTables = index.getNumberOfHashTables();
+		return name + "_" + numberOfHashes + "_" + numberOfHashTables + ".bin";
+	}
+	
+
+	/**
+	 * Deserializes the hash table from disk. If deserialization fails, 
+	 * a new hash table object is created.
+	 * 
+	 * @param family The family.
+	 * @param numberOfHashes the number of hashes.
+	 * @param numberOfHashTables The number of hash tables
+	 * @return a new, or deserialized object.
+	 */
+	public static Index deserialize(HashFamily family,int numberOfHashes,int numberOfHashTables){
+		Index index = new Index(family,numberOfHashes,numberOfHashTables);
+		String serializationFile = serializationName(index);
+		if(FileUtils.exists(serializationFile)){
+			try {
+				
+				InputStream file = new FileInputStream(serializationFile);
+				InputStream buffer = new BufferedInputStream(file);
+				ObjectInput input = new ObjectInputStream(buffer);
+				try {
+					index = (Index) input.readObject();
+				} finally {
+					input.close();
+				}
+			} catch (ClassNotFoundException ex) {
+				LOG.severe("Could not find class during deserialization: " + ex.getMessage());
+			} catch (IOException ex) {
+				LOG.severe("IO exeption during during deserialization: " + ex.getMessage());
+				ex.printStackTrace();
+			}
+		}
+		return index;
 	}
 
 }

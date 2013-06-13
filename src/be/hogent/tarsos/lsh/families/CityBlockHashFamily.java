@@ -27,6 +27,10 @@ import java.util.Arrays;
 
 public class CityBlockHashFamily implements HashFamily {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8926838846356323484L;
 	private int dimensions;
 	private int w;
 	

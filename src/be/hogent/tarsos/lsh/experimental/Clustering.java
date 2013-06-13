@@ -20,12 +20,14 @@
 *  Releases: http://tarsos.0110.be/releases/TarsosLSH/
 * 
 */
-package be.hogent.tarsos.lsh;
+package be.hogent.tarsos.lsh.experimental;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import be.hogent.tarsos.lsh.LSH;
+import be.hogent.tarsos.lsh.Vector;
 import be.hogent.tarsos.lsh.families.DistanceMeasure;
 import be.hogent.tarsos.lsh.families.EuclideanDistance;
 

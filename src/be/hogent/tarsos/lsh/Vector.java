@@ -23,15 +23,20 @@
 
 package be.hogent.tarsos.lsh;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Random;
 
 /**
- * An Vector contains a vector of 'dimension' values. It serves as the main data structure that is stored and retrieved.
- * It also has an identifier (key).
+ * An Vector contains a vector of 'dimension' values. It serves as the main data
+ * structure that is stored and retrieved. It also has an identifier (key).
+ * 
  * @author Joren Six
  */
-public class Vector {
+public class Vector implements Serializable {
+	
+	private static final long serialVersionUID = 5169504339456492327L;
+
 
 	/**
 	 * Values are stored here.
@@ -49,7 +54,7 @@ public class Vector {
 	 * @param dimensions The number of dimensions.
 	 */
 	public Vector(int dimensions) {
-		values = new double[dimensions];
+		this(null,new double[dimensions]);
 	}
 	
 	
@@ -59,7 +64,17 @@ public class Vector {
 	 */
 	public Vector(Vector other){
 		//copy the values
-		values = Arrays.copyOf(other.values, other.values.length);
+		this(other.getKey(),Arrays.copyOf(other.values, other.values.length));
+	}
+	
+	/**
+	 * Creates a vector with the values and a key
+	 * @param key The key of the vector.
+	 * @param values The values of the vector.
+	 */
+	public Vector(String key,double[] values){
+		this.values = values;
+		this.key = key;
 	}
 	
 	/**
@@ -104,9 +119,14 @@ public class Vector {
 	}
 
 	/**
-	 * Calculates the dot product, or scalar product, of this vector with the other vector.
-	 * @param other The other vector, should have the same number of dimensions.
+	 * Calculates the dot product, or scalar product, of this vector with the
+	 * other vector.
+	 * 
+	 * @param other
+	 *            The other vector, should have the same number of dimensions.
 	 * @return The dot product of this vector with the other vector.
+	 * @exception ArrayIndexOutOfBoundsException
+	 *                when the two vectors do not have the same dimensions.
 	 */
 	public double dot(Vector other) {
 		double sum = 0.0;

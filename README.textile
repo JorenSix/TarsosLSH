@@ -73,6 +73,9 @@ The source tree is divided in three directories:
 * @test@ contains unit tests for some of the DSP functionality.
 * @build@ contains ANT build files. Either to build Java documentation or runnable JAR-files for the example applications.  
 
+h2. Lisence
+
+The TarsosLSH license is distributed under the LGPL license.
 
 h2. Further Reading
 
@@ -84,3 +87,11 @@ This section includes a links to resources used to implement this library.
 * "Locality-Sensitive Hashing for Finding Nearest Neighbors":http://www.slaney.org/malcolm/yahoo/Slaney2008-LSHTutorial.pdf a good introduction of <abbr title="Locality-sensitive Hashing">LSH</abbr> by Malcom Slaney & Michael Casey
 * "Finding Similar Items":http://i.stanford.edu/~ullman/mmds/ch3.pdf, Chapter Three of "Mining of Massive Datasets" by Anand Rajaraman and Jeff Ullman is a textbook introducing the LSH concept.
 * "Szudzik pairing functions":http://szudzik.com/ElegantPairing.pdf by Matthew Szudzik. Explains how integer hashes can be combined deterministically to form a reversible, unique new hash.
+
+h2. Change log
+
+<dt>Version 0.5</dt><dd>2013-04-17</dd> First release which includes several LSH families.
+
+<dt>Version 0.6</dt><dd>2013-06-13</dd> Added serialization options to store LSH hashes, which makes the library more practical in real-world scenario's. Later database support should be added.
+
+

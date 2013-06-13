@@ -23,6 +23,8 @@
 
 package be.hogent.tarsos.lsh.families;
 
+import java.io.Serializable;
+
 import be.hogent.tarsos.lsh.Vector;
 
 /**
@@ -34,7 +36,7 @@ import be.hogent.tarsos.lsh.Vector;
  * 
  * @author Joren Six
  */
-public interface HashFunction {
+public interface HashFunction extends Serializable {
 	/**
 	 * Hashes a vector of arbitrary dimensions to an integer. The hash function
 	 * needs to be locality sensitive to work in the locality sensitive hash (LSH)

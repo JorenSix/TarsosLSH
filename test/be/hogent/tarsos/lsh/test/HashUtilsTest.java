@@ -31,7 +31,7 @@ import java.math.BigInteger;
 
 import org.junit.Test;
 
-import be.hogent.tarsos.lsh.util.HashUtils;
+import be.hogent.tarsos.lsh.experimental.HashUtils;
 
 
 public class HashUtilsTest {

@@ -2,7 +2,7 @@
 <project default="tarsos_lsh_library" name="Create TarsosLSH jar-files">
 
 	<!-- Configuration -->
-	<property name="version" value="0.5" />
+	<property name="version" value="0.6" />
 	<property name="built_by" value="${user.name}" />
 	<property name="junit_jar" value="/opt/eclipse/plugins/org.hamcrest.core_1.1.0.v20090501071000.jar:/opt/eclipse/plugins/org.junit_4.8.1.v4_8_1_v20100427-1100/junit.jar" />
 
@@ -66,6 +66,7 @@
 				<attribute name="Built-By" value="${built_by}" />
 				<attribute name="Created-By" value="${built_by}" />
 				<attribute name="Built-Date" value="${TODAY}" />
+				<attribute name="Main-Class" value="be.hogent.tarsos.lsh.LSH" />
 			</manifest>
 
 			<!-- exclude everything except src dir -->
@@ -78,7 +79,6 @@
 	
 	<!-- builds a release: all examples, documentation and library in the correct folders-->
 	<target name="release" depends="javadoc,tarsos_lsh_library">
-
 		<copy todir="TarsosLSH-${version}-Documentation">
 			<fileset dir="../doc" />
 		</copy>
@@ -107,4 +107,11 @@
 		-->
 		</junit>
 	</target>
+	
+
+	<!-- echo "function lsh() {java -jar /opt/TarsosLSH/TarsosLSH.jar \"\$\@\"} " >> ~/.bashrc -->
+	<target name="install">
+	    <copy file="TarsosLSH-${version}-bin.jar" tofile="/opt/TarsosLSH/TarsosLSH.jar"/>
+	</target>
+	
 </project>

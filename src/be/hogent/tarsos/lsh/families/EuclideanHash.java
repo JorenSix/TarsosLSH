@@ -28,6 +28,10 @@ import java.util.Random;
 import be.hogent.tarsos.lsh.Vector;
 
 public class EuclideanHash implements HashFunction{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3784656820380622717L;
 	private Vector randomProjection;
 	private int offset;
 	private int w;
