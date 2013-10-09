@@ -75,9 +75,9 @@ Examples
 h2. Source Code Organization 
 
 The source tree is divided in three directories: 
-* @src@ contains the source files of the core DSP libraries. 
-* @test@ contains unit tests for some of the DSP functionality.
-* @build@ contains ANT build files. Either to build Java documentation or runnable JAR-files for the example applications.  
+* @src@ contains the source files, the core functionality. 
+* @test@ contains unit tests for some of the functionality.
+* @build@ contains ANT build files. Either to build Java documentation and runnable JAR-files.
 
 h2. Lisence
 
