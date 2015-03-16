@@ -2,9 +2,9 @@
 <project default="tarsos_lsh_library" name="Create TarsosLSH jar-files">
 
 	<!-- Configuration -->
-	<property name="version" value="0.6" />
+	<property name="version" value="0.7" />
 	<property name="built_by" value="${user.name}" />
-	<property name="junit_jar" value="/opt/eclipse/plugins/org.hamcrest.core_1.1.0.v20090501071000.jar:/opt/eclipse/plugins/org.junit_4.8.1.v4_8_1_v20100427-1100/junit.jar" />
+	<property name="junit_jar" value="../lib/hamcrest-core-1.3.jar:../lib/junit-4.11.jar" />
 
 	<!-- run the ant timestamp task -->
 	<tstamp />
@@ -18,11 +18,11 @@
 	<!-- Compiles the java files to bytecode and copy required resources -->
 	<target name="compile">
 		<mkdir dir="../bin" />
-		<javac srcdir="../src" destdir="../bin" />
+		<javac srcdir="../src" destdir="../bin" includeantruntime="false"/>
 
 		<!-- copy all needed resources to bin dir
-		<copy todir="../bin/be/hogent/tarsos/lsh/resources">
-			<fileset dir="../src/be/hogent/tarsos/lsh/resources" />
+		<copy todir="../bin/be/tarsos/lsh/resources">
+			<fileset dir="../src/be/tarsos/lsh/resources" />
 		</copy>
 		 -->
 	</target>
@@ -30,7 +30,7 @@
 
 	<!-- Creates javadoc in doc directory -->
 	<target name="javadoc">
-		<javadoc access="public" author="true" classpath="${junit_jar}" destdir="../doc" doctitle="TarsosLSH API ${version}-${DSTAMP}" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="be.hogent.tarsos.lsh,be.hogent.tarsos.lsh.families,be.hogent.tarsos.lsh.util" source="1.6" sourcepath="../src" splitindex="true" use="true" version="true" />
+		<javadoc access="public" author="true" classpath="${junit_jar}" destdir="../doc" doctitle="TarsosLSH API ${version}-${DSTAMP}" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="be.tarsos.lsh,be.tarsos.lsh.families,be.tarsos.lsh.util" source="1.6" sourcepath="../src" splitindex="true" use="true" version="true" />
 	</target>
 
 	<!-- Creates the TarsosDSP jar library both with and withouth source code -->
@@ -44,7 +44,7 @@
 				<attribute name="Built-By" value="${built_by}" />
 				<attribute name="Created-By" value="${built_by}" />
 				<attribute name="Built-Date" value="${TODAY}" />
-				<attribute name="Main-Class" value="be.hogent.tarsos.lsh.LSH" />
+				<attribute name="Main-Class" value="be.tarsos.lsh.LSH" />
 			</manifest>
 
 			<!-- exclude everything except src dir -->
@@ -66,7 +66,7 @@
 				<attribute name="Built-By" value="${built_by}" />
 				<attribute name="Created-By" value="${built_by}" />
 				<attribute name="Built-Date" value="${TODAY}" />
-				<attribute name="Main-Class" value="be.hogent.tarsos.lsh.LSH" />
+				<attribute name="Main-Class" value="be.tarsos.lsh.LSH" />
 			</manifest>
 
 			<!-- exclude everything except src dir -->
@@ -87,20 +87,20 @@
 	<!-- Compiles the junit classes -->
 	<target name="compile_with_tests" depends="compile">
 		<javac srcdir="../tests" destdir="../bin" classpath="${junit_jar}" debug="true" />
-		<copy todir="../bin/be/hogent/tarsos/lsh/test/resources">
-			<fileset dir="../test/be/hogent/tarsos/lsh/test/resources" />
+		<copy todir="../bin/be/tarsos/lsh/test/resources">
+			<fileset dir="../test/be/tarsos/lsh/test/resources" />
 		</copy>
 	</target>
 
 	<target name="junit" depends="compile_with_tests">
 		<junit printsummary="true" showoutput="true" failureproperty="junit.failure">
-			<test name='be.hogent.tarsos.lsh.test.HashUtilsTest' />
+			<test name='be.tarsos.lsh.test.HashUtilsTest' />
 			<classpath>
 				<pathelement path="${junit_jar}:../bin" />
 			</classpath>
 			<!-- does not work for an unknown reason 	
 			<batchtest>
-				<fileset dir="../tests/be/hogent/tarsos/dsp/test">
+				<fileset dir="../tests/be/tarsos/dsp/test">
 					<include name="**/*Test*.java" />
 				</fileset>
 			</batchtest>

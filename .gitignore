@@ -1,0 +1,7 @@
+/bin/
+.project
+.classpath
+build/*.jar
+build/TarsosLSH*
+/doc/
+
