@@ -100,4 +100,6 @@ h2. Change log
 
 <dt>Version 0.6</dt><dd>2013-06-13</dd> Added serialization options to store LSH hashes, which makes the library more practical in real-world scenario's. Later database support should be added.
 
+<dt>Version 0.7</dt><dd>2015-03-16</dd> Maintenance release with changed package names and small fixes to the documentation and build file.
+
 
