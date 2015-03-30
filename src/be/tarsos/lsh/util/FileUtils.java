@@ -256,14 +256,14 @@ public final class FileUtils {
 			final int expectedColumns) {
 		final List<String[]> data = new ArrayList<String[]>();
 		FileReader fileReader = null;
-
+		BufferedReader in = null;
 		try {
 			final File file = new File(fileName);
 			if (!file.exists()) {
 				throw new IllegalArgumentException("File '" + fileName + "' does not exist");
 			}
 			fileReader = new FileReader(file);
-			final BufferedReader in = new BufferedReader(fileReader);
+			in = new BufferedReader(fileReader);
 			String inputLine;
 			int lineNumber = 0;
 			inputLine = in.readLine();
@@ -279,9 +279,17 @@ public final class FileUtils {
 				}
 				inputLine = in.readLine();
 			}
-			in.close();
+			
 		} catch (final IOException i1) {
 			LOG.severe("Can't open file:" + fileName);
+		} finally {
+			if(in!=null){
+				try {
+					in.close();
+				} catch (IOException e) {
+					//ignore
+				}
+			}
 		}
 		return data;
 	}

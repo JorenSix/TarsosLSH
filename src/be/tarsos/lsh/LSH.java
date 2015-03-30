@@ -87,7 +87,7 @@ public class LSH {
 		int falsePositives = 0;
 		int truePositives = 0;
 		int falseNegatives = 0;
-		int intersectionSize = 0;
+		//int intersectionSize = 0;
 		for(int i = 0 ; i < dataset.size() ; i++){
 			Vector query = dataset.get(i);
 			startTime = System.currentTimeMillis();
@@ -101,7 +101,7 @@ public class LSH {
 			Set<Vector> set = new HashSet<Vector>();
 			set.addAll(lshResult);
 			set.addAll(linearResult);
-			intersectionSize += set.size();
+			//intersectionSize += set.size();
 			//In the best case, LSH result and linear result contain the exact same elements.
 			//The number of false positives is the number of vectors that exceed the number of linear results.
 			falsePositives += set.size() - linearResult.size();
