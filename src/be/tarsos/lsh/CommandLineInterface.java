@@ -58,6 +58,7 @@ public class CommandLineInterface {
 	
 	private boolean benchmark;
 	private boolean printHelp;
+	private boolean linear;
 	
 	public CommandLineInterface(String... args){		
 		this.arguments = args;
@@ -71,6 +72,10 @@ public class CommandLineInterface {
 		numberOfHashes = getIntegerValue("-h",4);
 		numberOfNeighbours = getIntegerValue("-n",4);
 		String hashFamilyType = getValue("-f", "l2");
+		
+		
+		linear = hasOption("-l");
+		
 		radius = getDoubleValue("-r",0.0);
 		printHelp = hasOption("--help") || arguments.length == 0;
 		benchmark = hasOption("-b");
@@ -93,7 +98,7 @@ public class CommandLineInterface {
 			dimensions = queries.get(0).getDimensions();
 		}
 		if(radius == 0 && hashFamilyType.equalsIgnoreCase("l1")){
-			measure = new CityBlockDistance();
+			measure = new EuclideanDistance();
 			radius = LSH.determineRadius(dataset, measure, timeout);
 		} else if (radius == 0 && hashFamilyType.equalsIgnoreCase("l2")){
 			measure = new CityBlockDistance();
@@ -160,16 +165,32 @@ public class CommandLineInterface {
 
 	
 	private void startLSH(){
-		LSH lsh = new LSH(dataset, family);
-		lsh.buildIndex(numberOfHashes,numberOfHashTables);		
-		if(queries != null){
-			for(Vector query:queries){
-				List<Vector> neighbours = lsh.query(query, numberOfNeighbours);
-				System.out.print(query.getKey()+";");
-				for(Vector neighbour:neighbours){
-					System.out.print(neighbour.getKey() + ";");
+		if(linear){
+			if(queries != null){
+				for(Vector query:queries){
+					List<Vector> neighbours = LSH.linearSearch(dataset, query, numberOfNeighbours, measure);
+					System.out.print(query.getKey()+";");
+					double sum = 0.0;
+					for(Vector neighbour:neighbours){
+						sum += measure.distance(query, neighbour);
+						System.out.print(neighbour.getKey() + ";");
+					}
+					System.out.print(sum+";");
+					System.out.print("\n");
 				}
-				System.out.print("\n");
+			}
+		}else{
+			LSH lsh = new LSH(dataset, family);
+			lsh.buildIndex(numberOfHashes,numberOfHashTables);		
+			if(queries != null){
+				for(Vector query:queries){
+					List<Vector> neighbours = lsh.query(query, numberOfNeighbours);
+					System.out.print(query.getKey()+";");
+					for(Vector neighbour:neighbours){
+						System.out.print(neighbour.getKey() + ";");
+					}
+					System.out.print("\n");
+				}
 			}
 		}
 	}
@@ -314,6 +335,8 @@ public class CommandLineInterface {
 		System.out.println("		Number of neighbours in the neighbourhood, defaults to 3.");
 		System.out.println("	-b"); 
 		System.out.println("		Benchmark the settings."); 
+		System.out.println("	-l"); 
+		System.out.println("		Do a linear search, ignores all LSH settings.");
 		System.out.println("	--help"); 
 		System.out.println("		Prints this helpful message.");	
 		System.out.println("	");
