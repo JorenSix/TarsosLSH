@@ -23,6 +23,8 @@
 
 package be.tarsos.lsh.families;
 
+import java.util.Random;
+
 public class BinHashFamily implements HashFamily
 {
     /**
@@ -30,18 +32,19 @@ public class BinHashFamily implements HashFamily
      */
     private static final long serialVersionUID = 3406464542795652263L;
     private final int dimensions;
-    private int w;
+    private int seed;
+    private Random rand;
 
-    public BinHashFamily(int w, int dimensions)
+    public BinHashFamily(int seed, int dimensions)
     {
         this.dimensions = dimensions;
-        this.w = w;
+        this.rand = new Random(seed);
     }
 
     @Override
     public HashFunction createHashFunction()
     {
-        return new BinHash(dimensions, w);
+        return new BinHash(dimensions, this.rand.nextInt());
     }
 
     /**
