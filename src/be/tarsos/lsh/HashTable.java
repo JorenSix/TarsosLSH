@@ -40,7 +40,7 @@ import be.tarsos.lsh.families.HashFunction;
  *
  * @author Joren Six
  */
-class HashTable implements Serializable
+public class HashTable implements Serializable
 {
 
     private static final long serialVersionUID = -5410017645908038641L;
