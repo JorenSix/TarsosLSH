@@ -60,4 +60,8 @@ public class CityBlockDistance implements DistanceMeasure {
 		return distance;
 	}
 
+	public int distance(Integer one, Integer two)
+	{
+		return Integer.bitCount(one ^ two);
+	}
 }
