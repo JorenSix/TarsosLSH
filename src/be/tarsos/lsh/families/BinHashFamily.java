@@ -52,9 +52,9 @@ public class BinHashFamily implements HashFamily
      * @return An Integer representing the binary array of hashes
      */
     @Override
-    public Integer combine(int[] hashes)
+    public Long combine(int[] hashes)
     {
-        int ret = 0;
+        Long ret = (long) 0;
         for (int hash : hashes)
         {
             ret = (ret << 1) + ((hash == 0) ? 0 : 1);

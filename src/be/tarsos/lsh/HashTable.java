@@ -25,7 +25,6 @@ package be.tarsos.lsh;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.concurrent.*;
@@ -49,7 +48,7 @@ public class HashTable implements Serializable
      * Contains the mapping between a combination of a number of hashes (encoded
      * using an integer) and a list of possible nearest neighbours
      */
-    private Hashtable<Integer, List<Vector>> hashTable;
+    private Hashtable<Long, ArrayList<Vector>> hashTable;
     private HashFunction[] hashFunctions;
     private HashFamily family;
     private ExecutorService executor;
@@ -64,7 +63,7 @@ public class HashTable implements Serializable
      */
     public HashTable(int numberOfHashes, HashFamily family)
     {
-        hashTable = new Hashtable<Integer, List<Vector>>();
+        hashTable = new Hashtable<>();
         this.hashFunctions = new HashFunction[numberOfHashes];
         for (int i = 0; i < numberOfHashes; i++)
         {
@@ -86,7 +85,7 @@ public class HashTable implements Serializable
      */
     public List<Vector> query(Vector query)
     {
-        Integer combinedHash = hash(query);
+        Long combinedHash = hash(query);
         if (hashTable.containsKey(combinedHash))
             return hashTable.get(combinedHash);
         else
@@ -100,7 +99,7 @@ public class HashTable implements Serializable
      */
     public void add(Vector vector)
     {
-        Integer combinedHash = hash(vector);
+        Long combinedHash = hash(vector);
         if (!hashTable.containsKey(combinedHash))
         {
             hashTable.put(combinedHash, new ArrayList<Vector>());
@@ -114,7 +113,7 @@ public class HashTable implements Serializable
      * @param vector The vector to calculate the combined hash for.
      * @return An integer representing a combined hash.
      */
-    public Integer hash(final Vector vector)
+    public Long hash(final Vector vector)
     {
         int hashes[] = new int[hashFunctions.length];
         //Try hashing in Parallel. If fails, do it serially.

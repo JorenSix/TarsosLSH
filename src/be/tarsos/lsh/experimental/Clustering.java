@@ -118,7 +118,7 @@ public class Clustering {
 		}
 	}
 	
-	public static void nearestNeighbourClustering(double threshold,List<Vector> dataset){
+	public static void nearestNeighbourClustering(double threshold, List<Vector> dataset){
 		//Nearest neighbour clustering
 		List<Cluster> clusters = new ArrayList<Clustering.Cluster>();
 		DistanceMeasure dm = new EuclideanDistance();
