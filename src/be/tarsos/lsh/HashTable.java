@@ -51,7 +51,7 @@ public class HashTable implements Serializable
     private Hashtable<Long, ArrayList<Vector>> hashTable;
     private HashFunction[] hashFunctions;
     private HashFamily family;
-    private ExecutorService executor;
+    //private ExecutorService executor;
 
     /**
      * Initialize a new hash table, it needs a hash family and a number of hash
@@ -70,7 +70,7 @@ public class HashTable implements Serializable
             hashFunctions[i] = family.createHashFunction();
         }
         this.family = family;
-        executor = Executors.newFixedThreadPool(numberOfHashes);
+        //executor = Executors.newFixedThreadPool(16);
     }
 
     /**
@@ -117,23 +117,24 @@ public class HashTable implements Serializable
     {
         int hashes[] = new int[hashFunctions.length];
         //Try hashing in Parallel. If fails, do it serially.
-        try
-        {
-            List<Future<Integer>> futures = new ArrayList<Future<Integer>>();
+//        try
+//        {
+//            List<Future<Integer>> futures = new ArrayList<Future<Integer>>();
+//            for(int i = 0 ; i < hashFunctions.length ; i++)
+//            {
+//                futures.add(executor.submit(new ParallelHash(hashFunctions[i], vector)));
+//            }
+//            for(int i = 0 ; i < hashFunctions.length ; i++)
+//            {
+//                hashes[i] = futures.get(i).get();
+//            }
+//        } catch (InterruptedException | ExecutionException e)
+//        {
             for(int i = 0 ; i < hashFunctions.length ; i++)
             {
-                futures.add(executor.submit(new ParallelHash(hashFunctions[i], vector)));
-            }
-            for(int i = 0 ; i < hashFunctions.length ; i++)
-            {
-                hashes[i] = futures.get(i).get();
-            }
-        } catch (InterruptedException | ExecutionException e)
-        {
-            for(int i = 0 ; i < hashFunctions.length ; i++){
                 hashes[i] = hashFunctions[i].hash(vector);
             }
-        }
+//        }
 
         return family.combine(hashes);
     }
