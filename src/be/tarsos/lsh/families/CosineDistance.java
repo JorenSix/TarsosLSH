@@ -8,10 +8,7 @@
 *                                                         
 * -----------------------------------------------------------
 *
-*  TarsosLSH is developed by Joren Six at 
-*  The School of Arts,
-*  University College Ghent,
-*  Hoogpoort 64, 9000 Ghent - Belgium
+*  TarsosLSH is developed by Joren Six.
 *  
 * -----------------------------------------------------------
 *
