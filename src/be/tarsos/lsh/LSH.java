@@ -8,10 +8,7 @@
 *                                                         
 * -----------------------------------------------------------
 *
-*  TarsosLSH is developed by Joren Six at 
-*  The School of Arts,
-*  University College Ghent,
-*  Hoogpoort 64, 9000 Ghent - Belgium
+*  TarsosLSH is developed by Joren Six.
 *  
 * -----------------------------------------------------------
 *
@@ -20,7 +17,6 @@
 *  Releases: http://tarsos.0110.be/releases/TarsosLSH/
 * 
 */
-
 package be.tarsos.lsh;
 
 import java.util.ArrayList;
@@ -65,6 +61,9 @@ public class LSH {
 	 *            The number of hash tables to use.
 	 */
 	public void buildIndex(int numberOfHashes, int numberOfHashTables){
+		// Do we want to deserialize or build a new index???
+		// index = new Index(hashFamily, numberOfHashes, numberOfHashTables);
+		// Deserialization can cause duplicates?
 		index = Index.deserialize(hashFamily, numberOfHashes, numberOfHashTables);
 		if(dataset != null){
 			for(Vector vector : dataset){
