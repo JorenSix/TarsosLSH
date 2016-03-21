@@ -79,7 +79,7 @@ The source tree is divided in three directories:
 * @test@ contains unit tests for some of the functionality.
 * @build@ contains ANT build files. Either to build Java documentation and runnable JAR-files.
 
-h2. Lisence
+h2. License
 
 The TarsosLSH license is distributed under the LGPL license.
 
