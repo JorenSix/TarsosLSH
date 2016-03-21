@@ -95,10 +95,10 @@ public class CommandLineInterface {
 			dimensions = queries.get(0).getDimensions();
 		}
 		if(radius == 0 && hashFamilyType.equalsIgnoreCase("l1")){
-			measure = new EuclideanDistance();
+			measure = new CityBlockDistance();
 			radius = LSH.determineRadius(dataset, measure, timeout);
 		} else if (radius == 0 && hashFamilyType.equalsIgnoreCase("l2")){
-			measure = new CityBlockDistance();
+			measure =  new EuclideanDistance();
 			radius = LSH.determineRadius(dataset, measure, timeout);
 		}
 		family = getHashFamily(radius,hashFamilyType,dimensions);
