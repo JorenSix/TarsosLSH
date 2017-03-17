@@ -32,9 +32,9 @@ public class CityBlockHash implements HashFunction {
 	private int w;
 	private Vector randomPartition;
 	
-	public CityBlockHash(int dimensions,int w){
+	public CityBlockHash(int dimensions,int width){
 		Random rand = new Random();
-		this.w = w;
+		this.w = width;
 		
 		randomPartition = new Vector(dimensions);
 		for(int d=0; d<dimensions; d++) {
