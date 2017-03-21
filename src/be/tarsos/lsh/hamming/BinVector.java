@@ -18,6 +18,8 @@ public class BinVector {
 	private final int identifier;
 	private final int offset;
 	
+	private long[] longRepresentation = null;
+	
 	/**
 	 * Creates a new vector with the requested number of dimensions.
 	 * @param bytes The number of bytes.
@@ -89,26 +91,29 @@ public class BinVector {
 	public int getOffset(){
 		return offset;
 	}
+
 	
 	public long[] toLongArray(){
-		long[] data = bitSet.toLongArray();
 		
-		
-		long leastSignificantBits = 0;
-		long mostSignificantBits = 0;
-		
-		if(data.length==2){
-			mostSignificantBits = data[0];
-			leastSignificantBits = data[1];
-		} else if(data.length==1){
-			mostSignificantBits = data[0];
+		if(longRepresentation == null){
+			long[] data = bitSet.toLongArray();
+			
+			long leastSignificantBits = 0;
+			long mostSignificantBits = 0;
+			
+			if(data.length==2){
+				mostSignificantBits = data[0];
+				leastSignificantBits = data[1];
+			} else if(data.length==1){
+				mostSignificantBits = data[0];
+			}
+			
+			longRepresentation = new long[4];
+			longRepresentation[0] = identifier;
+			longRepresentation[1] = offset;
+			longRepresentation[2] = mostSignificantBits;
+			longRepresentation[3] = leastSignificantBits;
 		}
-		
-		long[] all = new long[4];
-		all[0] = identifier;
-		all[1] = offset;
-		all[2] = mostSignificantBits;
-		all[3] = leastSignificantBits;
-		return all;
+		return longRepresentation;		
 	}
 }

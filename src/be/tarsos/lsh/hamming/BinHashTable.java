@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
 
-import gnu.trove.list.array.TLongArrayList;
 import gnu.trove.map.hash.TIntObjectHashMap;
 
 /**
@@ -42,7 +41,7 @@ class BinHashTable implements Serializable {
 	 * Contains the mapping between a combination of a number of hashes (encoded
 	 * using an integer) and a list of possible nearest neighbours
 	 */
-	private TIntObjectHashMap<TLongArrayList> hashTable;
+	private TIntObjectHashMap<long[][]> hashTable;
 	//private THashMap<int,> hashTable;
 	private HammingHash[] hashFunctions;
 	private HammingHashFamily family;
@@ -58,7 +57,7 @@ class BinHashTable implements Serializable {
 	 *            functions, and is used therefore.
 	 */
 	public BinHashTable(int numberOfHashes,HammingHashFamily family){
-		hashTable = new TIntObjectHashMap<TLongArrayList>();
+		hashTable = new TIntObjectHashMap<long[] []>();
 		this.hashFunctions = new HammingHash[numberOfHashes];
 		for(int i=0;i<numberOfHashes;i++){
 			hashFunctions[i] = family.createHashFunction();
@@ -81,11 +80,11 @@ class BinHashTable implements Serializable {
 		int combinedHash = hash(query);
 		List<BinVector> neighbors = new ArrayList<BinVector>();
 		if(hashTable.containsKey(combinedHash)){
-			TLongArrayList list = hashTable.get(combinedHash);
-			for(int i = 0 ; i < list.size() ; i+=4){
-				int id = (int) list.get(i);
-				int offset = (int) list.get(i+1);
-				long[] bitsetData = {list.get(i+2),list.get(i+3)};
+			long[] [] list = hashTable.get(combinedHash);
+			for(int i = 0 ; i < list.length ; i+=4){
+				int id = (int) list[i][0];
+				int offset = (int) list[i][1];
+				long[] bitsetData = {list[i][2],list[i][3]};
 				BitSet bitSet = BitSet.valueOf(bitsetData);
 				neighbors.add(new BinVector(id, offset, bitSet));
 			}
@@ -99,14 +98,20 @@ class BinHashTable implements Serializable {
 	 */
 	public void add(BinVector vector) {
 		int combinedHash = hash(vector);
-		if(! hashTable.containsKey(combinedHash)){
-			hashTable.put(combinedHash, new TLongArrayList());
-		}
+		final long[][] newList;
 		long[] data = vector.toLongArray();
-		TLongArrayList list = hashTable.get(combinedHash);
-		for(int i = 0 ; i < data.length ; i++){
-			list.add(data[i]);
+		if(hashTable.containsKey(combinedHash)){ 
+			long[][] oldList = hashTable.get(combinedHash);
+			newList = new long[oldList.length+1][4];
+			for(int i = 0 ; i < newList.length - 1 ; i++){
+				newList[i] = oldList[i];
+			}
+			newList[newList.length-1]=data;
+		}else{
+			newList = new long[1][4];
+			newList[0] = data;			
 		}
+		hashTable.put(combinedHash, newList);
 	}
 	
 	/**
