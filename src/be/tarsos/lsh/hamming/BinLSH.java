@@ -3,11 +3,13 @@ package be.tarsos.lsh.hamming;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
+import java.util.Random;
 
 import be.tarsos.lsh.util.FileUtils;
 
 public class BinLSH {
 	
+	public static Random random; 
 	private final List<BinVector> dataset;
 	private BinIndex index;
 	
@@ -16,6 +18,11 @@ public class BinLSH {
 	}
 	
 	public void buildIndex(int numberOfHashes, int numberOfHashTables,int nbitsForProjection){
+		this.buildIndex(numberOfHashes, numberOfHashTables, nbitsForProjection, new Random().nextLong());
+	}
+	
+	public void buildIndex(int numberOfHashes, int numberOfHashTables,int nbitsForProjection, long seed){
+		BinLSH.random = new Random(seed);
 		// Do we want to deserialize or build a new index???
 		// index = new Index(hashFamily, numberOfHashes, numberOfHashTables);
 		// Deserialization can cause duplicates?
