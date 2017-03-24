@@ -102,13 +102,13 @@ class BinHashTable implements Serializable {
 		long[] data = vector.toLongArray();
 		if(hashTable.containsKey(combinedHash)){ 
 			long[][] oldList = hashTable.get(combinedHash);
-			newList = new long[oldList.length+1][4];
+			newList = new long[oldList.length+1][0];
 			for(int i = 0 ; i < newList.length - 1 ; i++){
 				newList[i] = oldList[i];
 			}
 			newList[newList.length-1]=data;
 		}else{
-			newList = new long[1][4];
+			newList = new long[1][0];
 			newList[0] = data;			
 		}
 		hashTable.put(combinedHash, newList);

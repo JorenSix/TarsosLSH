@@ -60,7 +60,7 @@ public class HammingHash {
 	}
 	
 	public int hash(BinVector vector){
-		/*if(projection.length <= 64){
+		if(projection.length <= 64){
 			long projectionLong = 0;
 			for(int i = 0 ; i < projection.length ; i++){
 				if(vector.get(projection[i])){
@@ -70,14 +70,13 @@ public class HammingHash {
 				}
 			}
 			return Long.hashCode(projectionLong);
-		}else{*/
+		}else{
 			BitSet projectionBitSet = new BitSet(projection.length);
 			for(int i = 0 ; i < projection.length ; i++){
 				projectionBitSet.set(i,vector.get(projection[i]));
 			}		
 			return Arrays.hashCode(projectionBitSet.toLongArray());
-		//}
-		
+		}
 	}
 	
 	
