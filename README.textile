@@ -1,6 +1,10 @@
 h1. TarsosLSH - Locality Sensitive Hashing (LSH) in Java
 
-TarsosLSH is a Java library implementing Locality-sensitive Hashing (LSH), a practical nearest neighbour search algorithm for multidimensional vectors that operates in sublinear time. It supports several Locality Sensitive Hashing (LSH) families: the Euclidean hash family (L<sub>2</sub>), city block hash family (L<sub>1</sub>) and cosine hash family. The library tries to hit the sweet spot between being capable enough to get real tasks done, and compact enough to serve as a demonstration on how <abbr title="Locality-sensitive Hashing">LSH</abbr> works.
+TarsosLSH is a Java library implementing sub-linear nearest neigbour search algorithms. It contains an approximate and exact search algorithm. Locality-sensitive Hashing (<abbr title="Locality-sensitive Hashing">LSH</abbr>) is a randomized approximate search algorithm for a number of search spaces. Multi-index hashing is an exact nearest neigbour search algorithm in Hamming space.
+
+Locality-sensitive Hashing (LSH), a practical nearest neighbour search algorithm for multidimensional vectors that operates in sublinear time. It supports several Locality Sensitive Hashing (LSH) families: the Euclidean hash family (L<sub>2</sub>), city block hash family (L<sub>1</sub>) and cosine hash family. The library tries to hit the sweet spot between being capable enough to get real tasks done, and compact enough to serve as a demonstration on how <abbr title="Locality-sensitive Hashing">LSH</abbr> works.
+
+Multi-index hashing is an exact, sub-linear nearest neighbour search algorithm in hamming space. It is a simple algorithm that seeks a balance between storage space requirements and query performance.
 
 h2. Quickly Getting Started with TarsosLSH
 
@@ -76,6 +80,8 @@ h2. Source Code Organization
 
 The source tree is divided in three directories: 
 * @src@ contains the source files, the core functionality. 
+** @src/be/tarsos/lsh@ Contains the LSH implementation
+** @src/be/tarsos/mih@ Contains an implementation of a multi index hash algorithm
 * @test@ contains unit tests for some of the functionality.
 * @build@ contains ANT build files. Either to build Java documentation and runnable JAR-files.
 
@@ -94,6 +100,17 @@ This section includes a links to resources used to implement this library.
 * "Finding Similar Items":http://i.stanford.edu/~ullman/mmds/ch3.pdf, Chapter Three of "Mining of Massive Datasets" by Anand Rajaraman and Jeff Ullman is a textbook introducing the LSH concept.
 * "Szudzik pairing functions":http://szudzik.com/ElegantPairing.pdf by Matthew Szudzik. Explains how integer hashes can be combined deterministically to form a reversible, unique new hash.
 
+For more information on Multi-Index Hashing:
+* "Fast Search in Hamming Space with Multi-Index Hashing":http://www.cs.toronto.edu/~norouzi/research/papers/multi_index_hashing.pdf, Mohammad Norouzi, Ali Punjani, David Fleet - IEEE Computer Vision and Pattern Recognition (CVPR), 2012. 
+* An extended version of "Fast Exact Search in Hamming Space with Multi-Index Hashing":http://arxiv.org/abs/1307.2982 
+* "Compact Discrete Representations for Scalable Similarity Search":https://tspace.library.utoronto.ca/bitstream/1807/73095/3/Norouzi_Mohammad_201606_PhD_thesis.pdf
+* A github repository with a "Multi-Index Hashing C++ implementation":https://github.com/norouzi/mih
+
+h2. Dependencies
+
+TarsosLSH relies on "MapDB":http://www.mapdb.org/ for storage which in turn depends on "eclipse collections":https://www.eclipse.org/collections/.
+
+
 h2. Change log
 
 <dt>Version 0.5</dt><dd>2013-04-17</dd> First release which includes several LSH families.
@@ -103,5 +120,7 @@ h2. Change log
 <dt>Version 0.7</dt><dd>2015-03-16</dd> Maintenance release with changed package names and small fixes to the documentation and build file.
 
 <dt>Version 0.8</dt><dd>2017-03-17</dd> Adds an implementation of a Hamming space LSH scheme.
+
+
 
 

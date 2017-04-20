@@ -21,6 +21,7 @@
 		<javac srcdir="../src" destdir="../bin" includeantruntime="false">
 			<classpath>
 				<fileset dir="../lib" includes="*.jar" excludes="*src*.jar"  />
+				<fileset dir="../lib/mapdb" includes="*.jar" excludes="*src*.jar"  />
 			</classpath>
 		</javac>
 		

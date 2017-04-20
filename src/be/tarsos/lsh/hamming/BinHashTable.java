@@ -24,7 +24,8 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
 
-import gnu.trove.map.hash.TIntObjectHashMap;
+import org.eclipse.collections.impl.map.mutable.primitive.IntObjectHashMap;
+
 
 /**
  * An index contains one or more locality sensitive hash tables. These hash
@@ -41,7 +42,7 @@ class BinHashTable implements Serializable {
 	 * Contains the mapping between a combination of a number of hashes (encoded
 	 * using an integer) and a list of possible nearest neighbours
 	 */
-	private TIntObjectHashMap<long[][]> hashTable;
+	private IntObjectHashMap<long[][]> hashTable;
 	//private THashMap<int,> hashTable;
 	private HammingHash[] hashFunctions;
 	private HammingHashFamily family;
@@ -57,7 +58,7 @@ class BinHashTable implements Serializable {
 	 *            functions, and is used therefore.
 	 */
 	public BinHashTable(int numberOfHashes,HammingHashFamily family){
-		hashTable = new TIntObjectHashMap<long[] []>();
+		hashTable = new IntObjectHashMap<long[] []>();
 		this.hashFunctions = new HammingHash[numberOfHashes];
 		for(int i=0;i<numberOfHashes;i++){
 			hashFunctions[i] = family.createHashFunction();
