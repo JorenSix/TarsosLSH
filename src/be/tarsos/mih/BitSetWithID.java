@@ -23,9 +23,9 @@ package be.tarsos.mih;
 import java.util.BitSet;
 
 /**
- * A set of bits with an identifier. The identifier is a long while the value is a Java BitSet which is also backed by long[]. 
+ * A set of bits with an identifier. The identifier is a long while the value is a Java BitSet backed by long[]. 
  * 
- * So memory consumption is in steps of 64bits.
+ * Memory consumption is in steps of the size of a long in the Java world this means steps of 64 bits.
  *
  */
 public class BitSetWithID {
