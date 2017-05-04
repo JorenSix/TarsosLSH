@@ -139,7 +139,7 @@ public class MultiIndexHasher {
 	 */
 	public Collection<BitSetWithID> query(final BitSetWithID query,final int maxNumNeighbors){
 		HashMap<Long,BitSetWithID> results = new HashMap<Long, BitSetWithID>();
-		int increment = numBits/64 + 1; //number of longs = data + identifier
+		int increment = Math.max(2, numBits/64 + 1); //number of longs = data + identifier
 		
 		//for each chunk query the respective hash map
 		for(int i = 0 ; i < numberOfChunks ; i++){
@@ -177,7 +177,8 @@ public class MultiIndexHasher {
 							BitSetWithID neighbor = BitSetWithID.fromLongArray(dataItem);
 							boolean isRealNeighbor = neighbor.hammingDistance(query) <= hammingSearchRadius;
 							//if it is a real neighbor, place it in the result map
-							if(isRealNeighbor) results.put(identifier,neighbor);
+							if(isRealNeighbor) 
+								results.put(identifier,neighbor);
 						}
 					}
 				}
@@ -263,7 +264,7 @@ public class MultiIndexHasher {
 	public List<BitSetWithID> getDataSet(int numItems) {
 		List<BitSetWithID> dataset = new ArrayList<BitSetWithID>();
 		Set<Integer> keys = storage.getKeys(0);
-		int increment = numBits/64 + 1; //number of longs = data + identifier
+		int increment = Math.max(2, numBits/64 + 1); //number of longs = data + identifier
 		for(Integer key : keys){
 			long[] data = storage.get(0,key);
 			for(int j = 0 ; j < data.length ; j+=increment ){
@@ -271,7 +272,6 @@ public class MultiIndexHasher {
 				for(int t = 0 ; t < increment ; t++){
 					dataItem[t] = data[j+t];
 				}
-				//check if it is a real neighbor
 				BitSetWithID item = BitSetWithID.fromLongArray(dataItem);
 				dataset.add(item);
 			}

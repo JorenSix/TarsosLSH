@@ -28,11 +28,13 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.stream.Stream;
 
+import be.tarsos.mih.storage.MapDBStorage;
+
 public class TarsosMIH {
 
 	public static void main(String[] args) throws IOException {
 		
-		MultiIndexHasher mih = new MultiIndexHasher(64, 8, 4, new EclipseStorage(4));    
+		MultiIndexHasher mih = new MultiIndexHasher(64, 8, 4, new MapDBStorage(4,"test.db"));    
         Iterator<String> iterator = Files.lines(Paths.get(args[0])).iterator();
 
         int lineNumber = 0;
@@ -48,12 +50,15 @@ public class TarsosMIH {
         
         Path path = Paths.get(args[1]);
         Stream<String> lines = Files.lines(path);
+        long start = System.currentTimeMillis();
         lines.forEach(s -> {
         	long[] l = {Long.parseLong(s)};
         	BitSetWithID q = new BitSetWithID(mih.size(), BitSet.valueOf(l));
         	
         	Collection<BitSetWithID> knn = mih.query(q,100);
+        	/*
         	int i = 0;
+        	
         	System.out.printf("%03d;",i);
         	System.out.print(q);
         	System.out.printf(";%02d\n",q.hammingDistance(q));
@@ -64,7 +69,9 @@ public class TarsosMIH {
         		System.out.printf(";%02d\n",q.hammingDistance(n));
         	}
         	System.out.println("\n");
+        	*/
         });
+        System.out.printf("Took %d ms per query\n",(System.currentTimeMillis()-start)/10000);
         lines.close();
 	}
 }
