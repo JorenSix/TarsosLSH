@@ -12,11 +12,12 @@
 *  
 * -----------------------------------------------------------
 *
-*  Info    : http://tarsos.0110.be/tag/TarsosLSH
+*  Info    : http://0110.be/tag/TarsosLSH
 *  Github  : https://github.com/JorenSix/TarsosLSH
-*  Releases: http://tarsos.0110.be/releases/TarsosLSH/
+*  Releases: http://0110.be/releases/TarsosLSH/
 * 
 */
+
 package be.tarsos.lsh.util;
 
 import java.util.ArrayList;

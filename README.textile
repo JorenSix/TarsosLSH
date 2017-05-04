@@ -1,6 +1,6 @@
 h1. TarsosLSH - Locality Sensitive Hashing (LSH) in Java
 
-TarsosLSH is a Java library implementing sub-linear nearest neigbour search algorithms. It contains an approximate and exact search algorithm. Locality-sensitive Hashing (<abbr title="Locality-sensitive Hashing">LSH</abbr>) is a randomized approximate search algorithm for a number of search spaces. Multi-index hashing is an exact nearest neigbour search algorithm in Hamming space.
+TarsosLSH is a Java library implementing sub-linear nearest neigbour search algorithms. It contains both an approximate and an exact search algorithm. The first, Locality-sensitive Hashing (<abbr title="Locality-sensitive Hashing">LSH</abbr>) is a randomized approximate search algorithm for a number of search spaces. The second, Multi-index hashing is an exact nearest neigbour search algorithm which is limited to Hamming space.
 
 Locality-sensitive Hashing (LSH), a practical nearest neighbour search algorithm for multidimensional vectors that operates in sublinear time. It supports several Locality Sensitive Hashing (LSH) families: the Euclidean hash family (L<sub>2</sub>), city block hash family (L<sub>1</sub>) and cosine hash family. The library tries to hit the sweet spot between being capable enough to get real tasks done, and compact enough to serve as a demonstration on how <abbr title="Locality-sensitive Hashing">LSH</abbr> works.
 
@@ -72,8 +72,6 @@ Examples
 	and utilizing 5 hash tables, each with 3 hashes.
 	
 	java -jar TarsosLSH.jar -f l2 -r 500 -h 3 -t 5 -d dataset.txt -q queries.txt
-
-
 </pre>
  
 h2. Source Code Organization 
@@ -120,6 +118,8 @@ h2. Change log
 <dt>Version 0.7</dt><dd>2015-03-16</dd> Maintenance release with changed package names and small fixes to the documentation and build file.
 
 <dt>Version 0.8</dt><dd>2017-03-17</dd> Adds an implementation of a Hamming space LSH scheme.
+
+<dt>Version 0.9</dt><dd>2017-04-21</dd> Adds an implementation of a Hamming space multi index hasher algorithm as described in "Fast Exact Search in Hamming Space with Multi-Index Hashing":http://arxiv.org/abs/1307.2982 .
 
 
 

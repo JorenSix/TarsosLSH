@@ -2,7 +2,7 @@
 <project default="tarsos_lsh_library" name="Create TarsosLSH jar-files">
 
 	<!-- Configuration -->
-	<property name="version" value="0.8" />
+	<property name="version" value="0.9" />
 	<property name="built_by" value="${user.name}" />
 	<property name="junit_jar" value="../lib/hamcrest-core-1.3.jar:../lib/junit-4.11.jar" />
 
