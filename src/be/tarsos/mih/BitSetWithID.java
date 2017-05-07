@@ -168,6 +168,6 @@ public class BitSetWithID {
 		for(int i = 0 ; i < bits.length ; i++){
 			bits[i] = source[i+1];
 		}
-		return new BitSetWithID((int) source[0],BitSet.valueOf(bits));
+		return new BitSetWithID(source[0],BitSet.valueOf(bits));
 	}
 }
