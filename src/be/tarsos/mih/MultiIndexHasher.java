@@ -150,7 +150,7 @@ public class MultiIndexHasher {
 			keys.add(key);
 			//Here serious optimization is possible by limiting the search radius
 			//in some edge cases, check the papers for suggestions
-			addModifiedKeysToSet(key,keys,0,hammingSearchRadiusPerSubstring);
+			addModifiedKeysToSet(key,keys,0,hammingSearchRadiusPerSubstring,bitsPerChunk);
 			//warn if the number of keys is big
 			if(keys.size()>10000){
 				LOG.warning("Query with more than 10k keys ("  + keys.size() + "). Is parameter optimization possible?");
@@ -221,7 +221,7 @@ public class MultiIndexHasher {
 	 * @param currentLevel The current level with respect to the first key, needed for recursion.
 	 * @param maxLevel The max level with respect to the first key, the stop condition for recursion.
 	 */
-	private void addModifiedKeysToSet(int original,HashSet<Integer> set,int currentLevel,int maxLevel){
+	private static  void addModifiedKeysToSet(int original,HashSet<Integer> set,int currentLevel,int maxLevel, int bitsPerChunk){
 		//for each bit
 		for(int i = 0 ; i < bitsPerChunk ;i ++){
 			//flip bit i and place it in 
@@ -242,7 +242,7 @@ public class MultiIndexHasher {
 			set.add(newKey);
 			//go one level deeper, if needed (depth first).
 			if(maxLevel != currentLevel+1){
-				addModifiedKeysToSet(newKey, set, currentLevel+1, maxLevel);	
+				addModifiedKeysToSet(newKey, set, currentLevel+1, maxLevel, bitsPerChunk);	
 			}
 		}
 	}
@@ -285,4 +285,14 @@ public class MultiIndexHasher {
 	public void close(){
 		storage.close();
 	}
+	
+	public static void main(String... args){
+		int key = 0;
+		for(int i = 1;i < 6 ; i++){
+			HashSet<Integer> keys = new HashSet<>();
+			keys.add(key);
+			addModifiedKeysToSet(key,keys,0,i,32);
+			System.out.println(i + " " + keys.size());
+		}
+	} 
 }
