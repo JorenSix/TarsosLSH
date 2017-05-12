@@ -41,8 +41,8 @@ public class EuclidianHashFamily implements HashFamily {
 	}
 	
 	@Override
-	public Integer combine(int[] hashes){
-		return Arrays.hashCode(hashes);
+	public Long combine(int[] hashes){
+		return (long) Arrays.hashCode(hashes);
 	}
 
 	@Override

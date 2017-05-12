@@ -39,11 +39,11 @@ public class CosineHashFamily implements HashFamily {
 	}
 
 	@Override
-	public Integer combine(int[] hashes) {
+	public Long combine(int[] hashes) {
 		//Treat the hashes as a series of bits.
 		//They are either zero or one, the index 
 		//represents the value.
-		int result = 0;
+		Long result = (long) 0;
 		//factor holds the power of two.
 		int factor = 1;
 		for(int i = 0 ; i < hashes.length ; i++){
