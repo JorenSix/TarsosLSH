@@ -65,7 +65,8 @@ public class LSH {
 		// Do we want to deserialize or build a new index???
 		// index = new Index(hashFamily, numberOfHashes, numberOfHashTables);
 		// Deserialization can cause duplicates?
-		index = Index.deserialize(hashFamily, numberOfHashes, numberOfHashTables);
+		//index = Index.deserialize(hashFamily, numberOfHashes, numberOfHashTables);
+		index = new Index(hashFamily, numberOfHashes, numberOfHashTables);
 		if(dataset != null){
 			for(Vector vector : dataset){
 				index.index(vector);
