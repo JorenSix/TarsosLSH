@@ -85,7 +85,7 @@ public class CommandLineInterface {
 				radius = 10;
 			}
 			dataset = TestUtils.generate(dimensions, 100,512);
-			TestUtils.addNeighbours(dataset, numberOfNeighbours, radius);
+			TestUtils.addNeighbours(dataset, 4, radius);
 		}
 		if(datasetFile !=null){
 			dataset = LSH.readDataset(datasetFile,Integer.MAX_VALUE);
@@ -154,7 +154,7 @@ public class CommandLineInterface {
 			for(int i = 0; i < numberOfHashes.length ; i++){
 				for(int j = 0 ; j < numberOfHashTables.length ; j++){	
 					lsh.buildIndex( numberOfHashes[i], numberOfHashTables[j]);
-					lsh.benchmark(numberOfNeighbours,family.createDistanceMeasure());	
+					lsh.benchmark(4,family.createDistanceMeasure());	
 				}
 			}
 		}
