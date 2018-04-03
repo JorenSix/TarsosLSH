@@ -49,7 +49,7 @@ public class CityBlockHash implements HashFunction {
 	public int hash(Vector vector){
 		int hash[] = new int[randomPartition.getDimensions()];
 		for(int d=0; d<randomPartition.getDimensions(); d++) {
-			hash[d] =  (int) ((vector.get(d)-randomPartition.get(d)) / Double.valueOf(w));
+			hash[d] =  (int) Math.floor((vector.get(d)-randomPartition.get(d)) / Double.valueOf(w));
 		}
 		return Arrays.hashCode(hash);
 	}
