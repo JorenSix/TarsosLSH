@@ -108,7 +108,7 @@ public class LSH {
 			//The number of true positives is Union of results - intersection. 
 			truePositives += lshResult.size() + linearResult.size() - set.size();
 			//The number of false Negatives the number of vectors that exceed the number of lsh results . 
-			falseNegatives =  set.size() - lshResult.size();
+			falseNegatives +=  set.size() - lshResult.size();
 							
 			//result is only correct if all nearest neighbours are the same (rather strict).
 			boolean correct = true;
