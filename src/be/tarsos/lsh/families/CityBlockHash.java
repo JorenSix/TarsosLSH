@@ -41,7 +41,7 @@ public class CityBlockHash implements HashFunction {
 		for(int d=0; d<dimensions; d++) {
 			//mean 0
 			//standard deviation 1.0
-			double val = rand.nextInt(w);
+			double val = rand.nextDouble()*w;
 			randomPartition.set(d, val);
 		}
 	}
