@@ -42,8 +42,9 @@ public class CityBlockHashFamily implements HashFamily {
 	}
 
 	@Override
-	public Integer combine(int[] hashes) {
-		return Arrays.hashCode(hashes);
+	public String combine(int[] hashes) {
+		//return Arrays.hashCode(hashes);
+		return Arrays.toString(hashes);
 	}
 
 	@Override
