@@ -49,7 +49,7 @@ public interface HashFamily extends Serializable {
 	 *         unique hash values result in a unique, deterministic combined
 	 *         hash value.
 	 */
-	Integer combine(int[] hashes);
+	String combine(int[] hashes);
 	
 	/**
 	 * Create a new distance measure.

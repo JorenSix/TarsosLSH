@@ -43,7 +43,7 @@ class HashTable implements Serializable {
 	 * Contains the mapping between a combination of a number of hashes (encoded
 	 * using an integer) and a list of possible nearest neighbours
 	 */
-	private HashMap<Integer,List<Vector>> hashTable;
+	private HashMap<String,List<Vector>> hashTable;
 	private HashFunction[] hashFunctions;
 	private HashFamily family;
 	
@@ -58,7 +58,7 @@ class HashTable implements Serializable {
 	 *            functions, and is used therefore.
 	 */
 	public HashTable(int numberOfHashes,HashFamily family){
-		hashTable = new HashMap<Integer, List<Vector>>();
+		hashTable = new HashMap<String, List<Vector>>();
 		this.hashFunctions = new HashFunction[numberOfHashes];
 		for(int i=0;i<numberOfHashes;i++){
 			hashFunctions[i] = family.createHashFunction();
@@ -78,7 +78,7 @@ class HashTable implements Serializable {
 	 *         list of candidates is returned.
 	 */
 	public List<Vector> query(Vector query) {
-		Integer combinedHash = hash(query);
+		String combinedHash = hash(query);
 		if(hashTable.containsKey(combinedHash))
 			return hashTable.get(combinedHash);
 		else
@@ -90,7 +90,7 @@ class HashTable implements Serializable {
 	 * @param vector
 	 */
 	public void add(Vector vector) {
-		Integer combinedHash = hash(vector);
+		String combinedHash = hash(vector);
 		if(! hashTable.containsKey(combinedHash)){
 			hashTable.put(combinedHash, new ArrayList<Vector>());
 		}
@@ -102,12 +102,12 @@ class HashTable implements Serializable {
 	 * @param vector The vector to calculate the combined hash for.
 	 * @return An integer representing a combined hash.
 	 */
-	private Integer hash(Vector vector){
+	private String hash(Vector vector){
 		int hashes[] = new int[hashFunctions.length];
 		for(int i = 0 ; i < hashFunctions.length ; i++){
 			hashes[i] = hashFunctions[i].hash(vector);
 		}
-		Integer combinedHash = family.combine(hashes);
+		String combinedHash = family.combine(hashes);
 		return combinedHash;
 	}
 
