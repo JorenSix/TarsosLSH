@@ -8,7 +8,7 @@ Multi-index hashing is an exact, sub-linear nearest neighbour search algorithm i
 
 h2. Quickly Getting Started with TarsosLSH
 
-Head over to the "TarsosLSH release repository":http://tarsos.0110.be/releases/TarsosLSH/ and download the latest "TarsosLSH library":http://tarsos.0110.be/releases/TarsosLSH/TarsosLSH-latest/TarsosLSH-latest.jar. Consult the "TarsosLSH API documentation":http://tarsos.0110.be/releases/TarsosLSH/TarsosLSH-latest/TarsosLSH-latest-Documentation/. If you, for some reason, want to build from source, you need "Apache Ant":http://ant.apache.org/ and "git":http://git-scm.com/ installed on your system. The following commands fetch the source and build the library and example jars: 
+Head over to the "TarsosLSH release repository":http://0110.be/releases/TarsosLSH/ and download the latest "TarsosLSH library":http://0110.be/releases/TarsosLSH/TarsosLSH-latest/TarsosLSH-latest.jar. Consult the "TarsosLSH API documentation":http://0110.be/releases/TarsosLSH/TarsosLSH-latest/TarsosLSH-latest-Documentation/. If you, for some reason, want to build from source, you need "Apache Ant":http://ant.apache.org/ and "git":http://git-scm.com/ installed on your system. The following commands fetch the source and build the library and example jars: 
 <pre><code>git clone https://JorenSix@github.com/JorenSix/TarsosLSH.git
 cd TarsosLSH/build
 ant  #Builds the core TarsosLSH library
